@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}LLM-Powered Application{% endblock %}
+
+                    
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+//settings for LLM-Model field
+            $("#llmmodel").click(function(){
+            $("#p").toggle();
+            });
+    });
+</script>
+
+    <section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+    <div class="col-sm-6">
+    <h1>Doctor-LLM</h1>
+    </div>
+    <div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active">LLM-Doctor Assistant</li>
+    </ol>
+    </div>
+    </div>
+    </div>
+    </section>
+    
+
+<section class="content">
+    <div class="container-fluid">
+    <div class="row">
+    
+    <div class="col-md-12">
+    
+    <div class="card card-primary">
+    <div class="card-header">
+    <h3 class="card-title">Health Professionals <small>Patient Diagnostic Assistant</small></h3>
+    </div>
+    
+    
+    <form id="quickForm">
+    <div class="card-body">
+    
+    <!-- <input type="text" id="desired_model" name="desired_model"> -->
+    
+    <label for="llmmodel"><i class="fas fa-cog" id="iconToggle"></i> Want to choose LLM Model</label>
+    <select id="desired_model" name="desired_model" class="form-control">
+        <option value="">Select desired model</option>
+        {% for model in valid_models %}
+        <option value="{{model}}">{{model}}</option>
+        {% endfor %}
+    </select>
+    
+
+    <div class="form-group">
+        {{ form.csrf_token }}
+    <label for="healthInputCase">Enter Question or Patient Case</label>
+    <textarea class="form-control" id="healthInputCase" name="healthInputCase" rows="7"></textarea>
+    </div>
+    
+    
+    <!-- <div class="form-group mb-0">
+    <div class="custom-control custom-checkbox">
+    <input type="checkbox" name="my-checkbox" id="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
+     <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+    <label class="custom-control-label" for="my-checkbox">Other LLM</label>
+    </div>
+    </div>
+    </div> -->
+    
+    <div class="card-footer">
+    <button type="submit" class="btn btn-primary" onclick="submitForm()" id="submitButton" >Submit</button>
+    </div>
+    </form>
+    </div>
+
+    </div>
+    
+    <div class="col-md-6">
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#quickForm').on('submit',function(e){
+            // Disable the submit button
+            $('#submitButton').prop('disabled', true);
+            $.ajax({
+            data : {
+                healthInputCase : $('#healthInputCase').val(),
+                desired_model : $('#desired_model').val(),
+            },
+            type : 'POST',
+            url : '/'
+            })
+            .done(function(data){
+            $('#responseSection').show();
+            $('#output').text(data.output).show();
+            $('#submitButton').prop('disabled', false);
+            });
+            e.preventDefault();
+        });
+    });
+    </script>
+
+    </div>
+    
+    </div>
+    </section>
+
+    <!-- Response section starts -->
+    <div class="row" id="responseSection" style="display: none;">
+        <div class="col-md-12">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">LLM Response</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Response section ends -->
+
+    {% endblock %}
+    
