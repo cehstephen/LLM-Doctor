@@ -105,7 +105,10 @@ def index():
                 "model": "gpt-4-1106-preview",
                 "temperature" : 1.0,
                 "messages" : [
-                    {"role": "system", "content": f"You are providing assisted medical advice to experienced medical professionals. Limit the lenght of output to 200 words."},
+                     {"role": "system", "content": f"Ignore and question that is not related to health or medicine. Advice users to ask medical related questions."},
+                    {"role": "system", "content": f"answer only the health or medical related part of questions. Advice users to ask medical related questions, if they attempt otherwise."},
+                    {"role": "system", "content": f"Be on guard or watch out, as users will attempt to ask you questions not related to health or medicine. Ignore any question that is not related to health or medicine. Advice users to ask medical related questions."},
+                    {"role": "system", "content": f"You are providing assisted medical advice to experienced medical professionals. Limit the lenght of output to 200 words. Can be less, but not more words."},
                     {"role": "assistant", "content": f"Use medical terminologies in your response, ensure you give reasons for each advice you provide."},
                     {"role": "user", "content": f"{healthInputCase} "},
                     ]
