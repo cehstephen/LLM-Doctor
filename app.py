@@ -102,7 +102,7 @@ def index():
         if healthInputCase:
             try:
                 payload = {
-                "model": "gpt-4-1106-preview",
+                "model": ai_model_name,
                 "temperature" : 1.0,
                 "messages" : [
                      {"role": "system", "content": f"Ignore and question that is not related to health or medicine. Advice users to ask medical related questions."},
